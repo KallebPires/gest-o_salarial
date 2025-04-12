@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planejador Financeiro Pessoal</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Planejador Financeiro Pessoal</h1>
+        <p>Gerencie seus gastos e planeje compras futuras</p>
+    </header>
+
+    <div class="container">
+        <div class="dashboard">
+            <!-- Seção de Renda -->
+            <div class="card">
+                <h2>Sua Renda</h2>
+                <div class="form-group">
+                    <label for="salary">Salário Mensal</label>
+                    <input type="number" id="salary" placeholder="Digite seu salário mensal">
+                </div>
+                <button id="save-salary">Salvar Renda</button>
+            </div>
+
+            <!-- Seção de Gastos Fixos -->
+            <div class="card">
+                <h2>Gastos Fixos Mensais</h2>
+                <div class="form-group">
+                    <label for="expense-name">Descrição</label>
+                    <input type="text" id="expense-name" placeholder="Ex: Aluguel, Energia...">
+                </div>
+                <div class="form-group">
+                    <label for="expense-amount">Valor (R$)</label>
+                    <input type="number" id="expense-amount" placeholder="Valor">
+                </div>
+                <button id="add-expense">Adicionar Gasto</button>
+
+                <div class="expense-list" id="expense-list">
+                    <!-- Os gastos fixos serão adicionados aqui dinamicamente -->
+                </div>
+            </div>
+
+            <!-- Seção de Compras Planejadas -->
+            <div class="card">
+                <h2>Compras Planejadas</h2>
+                <div class="form-group">
+                    <label for="purchase-name">Item</label>
+                    <input type="text" id="purchase-name" placeholder="Ex: Computador, Viagem...">
+                </div>
+                <div class="form-group">
+                    <label for="purchase-amount">Valor (R$)</label>
+                    <input type="number" id="purchase-amount" placeholder="Valor">
+                </div>
+                <div class="form-group">
+                    <label for="purchase-month">Mês da Compra</label>
+                    <select id="purchase-month">
+                        <option value="0">Este mês</option>
+                        <option value="1">Próximo mês</option>
+                        <option value="2">Em 2 meses</option>
+                        <option value="3">Em 3 meses</option>
+                        <option value="4">Em 4 meses</option>
+                        <option value="5">Em 5 meses</option>
+                        <option value="6">Em 6 meses</option>
+                    </select>
+                </div>
+                <button id="add-purchase">Adicionar Compra</button>
+
+                <div class="planned-purchase-list" id="purchase-list">
+                    <!-- As compras planejadas serão adicionadas aqui dinamicamente -->
+                </div>
+            </div>
+
+            <!-- Resumo Financeiro -->
+            <div class="card summary">
+                <h2>Resumo Financeiro</h2>
+                <div class="summary-item">
+                    <span>Renda Total:</span>
+                    <span id="total-income">R$ 0,00</span>
+                </div>
+                <div class="summary-item">
+                    <span>Gastos Fixos Totais:</span>
+                    <span id="total-expenses">R$ 0,00</span>
+                </div>
+                <div class="summary-item">
+                    <span>Compras Planejadas (este mês):</span>
+                    <span id="total-purchases-current">R$ 0,00</span>
+                </div>
+                <div class="summary-total">
+                    <span>Saldo (este mês):</span>
+                    <span id="balance-current">R$ 0,00</span>
+                </div>
+
+                <!-- Botões de Ação -->
+                <div class="action-buttons">
+                    <button id="download-pdf" class="action-btn pdf-btn">Baixar Relatório PDF</button>
+                    <button id="calculate-savings" class="action-btn savings-plan">Sugestão de Reserva</button>
+                </div>
+            </div>
+
+            <!-- Previsão para os próximos meses -->
+            <div class="card forecast-container">
+                <h2>Previsão para os Próximos Meses</h2>
+                <div class="month-forecast" id="months-forecast">
+                    <!-- A previsão dos meses será adicionada aqui dinamicamente -->
+                </div>
+            </div>
+
+            <!-- Nova seção: Sugestão de Reserva para Gastos a Longo Prazo -->
+            <div class="card savings-card" id="savings-suggestion" style="display: none;">
+                <h2>Sugestão de Reserva para Gastos a Longo Prazo</h2>
+                <p>Com base na sua renda e gastos atuais, sugerimos o seguinte plano de reserva mensal:</p>
+
+                <div class="savings-result" id="savings-result">
+                    <div class="summary-item">
+                        <span>Renda Mensal:</span>
+                        <span id="savings-income">R$ 0,00</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Gastos Fixos Mensais:</span>
+                        <span id="savings-expenses">R$ 0,00</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Saldo Disponível:</span>
+                        <span id="savings-available">R$ 0,00</span>
+                    </div>
+                </div>
+
+                <div class="savings-bars" id="savings-bars">
+                    <!-- As barras de reserva serão adicionadas aqui dinamicamente -->
+                </div>
+
+                <p class="savings-tip" style="margin-top: 20px; font-style: italic;">
+                    Dica: A regra 50-30-20 sugere que você gaste 50% da sua renda com necessidades básicas,
+                    30% com desejos pessoais e invista 20% para objetivos financeiros futuros.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container oculto para geração do relatório PDF -->
+    <div id="report-container" class="report-container">
+        <div class="report-header">
+            <h1>Relatório Financeiro Pessoal</h1>
+            <div class="report-date" id="report-date">Data: </div>
+        </div>
+
+        <div class="report-section">
+            <h2>Resumo Financeiro</h2>
+            <div class="summary-item">
+                <span>Renda Total:</span>
+                <span id="report-income">R$ 0,00</span>
+            </div>
+            <div class="summary-item">
+                <span>Gastos Fixos Totais:</span>
+                <span id="report-expenses">R$ 0,00</span>
+            </div>
+            <div class="summary-item">
+                <span>Compras Planejadas (este mês):</span>
+                <span id="report-purchases-current">R$ 0,00</span>
+            </div>
+            <div class="summary-total">
+                <span>Saldo (este mês):</span>
+                <span id="report-balance-current">R$ 0,00</span>
+            </div>
+        </div>
+
+        <div class="report-section">
+            <h2>Gastos Fixos Mensais</h2>
+            <div id="report-expenses-list">
+                <!-- Lista de gastos para o relatório -->
+            </div>
+        </div>
+
+        <div class="report-section">
+            <h2>Compras Planejadas</h2>
+            <div id="report-purchases-list">
+                <!-- Lista de compras planejadas para o relatório -->
+            </div>
+        </div>
+
+        <div class="report-section">
+            <h2>Previsão para os Próximos Meses</h2>
+            <div id="report-forecast">
+                <!-- Previsão para o relatório -->
+            </div>
+        </div>
+
+        <div class="report-section">
+            <h2>Sugestão de Reserva</h2>
+            <p>Com base na sua situação financeira atual, recomendamos as seguintes reservas mensais:</p>
+            <div id="report-savings">
+                <!-- Sugestões de reserva para o relatório -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>
