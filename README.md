@@ -89,7 +89,7 @@ Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull re
 
 ## 👤 Autor
 
-Criado com ❤️ por [Seu Nome](https://github.com/seu-usuario)
+Criado com ❤️ por [Kalleb Pires](https://github.com/KallebPires)
 
 ---
 
