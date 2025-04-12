@@ -22,12 +22,12 @@ Um aplicativo web responsivo para ajudar você a gerenciar suas finanças pessoa
 
 1. Clone este repositório:
    ```bash
-   git clone https://github.com/seu-usuario/planejador-financeiro-pessoal.git
+   git clone https://github.com/KallebPires/gest-o_salarial.git
    ```
 
 2. Navegue até o diretório do projeto:
    ```bash
-   cd planejador-financeiro-pessoal
+   cd gest-o_salarial
    ```
 
 3. Abra o arquivo `index.html` em seu navegador preferido ou use um servidor local:
